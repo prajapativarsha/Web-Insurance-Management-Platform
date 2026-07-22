@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js" 
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model agents {
+  id                                Int        @id @default(autoincrement())
+  user_id                           Int        @unique
+  employee_code                     String     @unique @db.VarChar(50)
+  department                        String?    @db.VarChar(100)
+  created_at                        DateTime   @default(now()) @db.Timestamp(6)
+  users                             users      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  claims_claims_approved_byToagents claims[]   @relation("claims_approved_byToagents")
+  claims_claims_verified_byToagents claims[]   @relation("claims_verified_byToagents")
+  policies                          policies[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model claims {
+  id                                Int       @id @default(autoincrement())
+  claim_number                      String    @unique @db.VarChar(50)
+  policy_id                         Int
+  customer_id                       Int
+  description                       String
+  claim_amount                      Decimal   @db.Decimal(14, 2)
+  status                            String    @default("submitted") @db.VarChar(20)
+  submitted_date                    DateTime  @default(now()) @db.Timestamp(6)
+  verified_by                       Int?
+  verified_at                       DateTime? @db.Timestamp(6)
+  approved_by                       Int?
+  approved_at                       DateTime? @db.Timestamp(6)
+  rejection_reason                  String?
+  agents_claims_approved_byToagents agents?   @relation("claims_approved_byToagents", fields: [approved_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customers                         customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  policies                          policies  @relation(fields: [policy_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agents_claims_verified_byToagents agents?   @relation("claims_verified_byToagents", fields: [verified_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([customer_id], map: "idx_claims_customer")
+  @@index([policy_id], map: "idx_claims_policy")
+  @@index([status], map: "idx_claims_status")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model customers {
+  id                 Int        @id @default(autoincrement())
+  user_id            Int        @unique
+  date_of_birth      DateTime?  @db.Date
+  address            String?
+  id_document_type   String?    @db.VarChar(50)
+  id_document_number String?    @db.VarChar(100)
+  kyc_status         String     @default("pending") @db.VarChar(20)
+  created_at         DateTime   @default(now()) @db.Timestamp(6)
+  claims             claims[]
+  users              users      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  payments           payments[]
+  policies           policies[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model documents {
+  id                  Int      @id @default(autoincrement())
+  owner_type          String   @db.VarChar(20)
+  owner_id            Int
+  document_type       String   @db.VarChar(50)
+  file_url            String   @db.VarChar(255)
+  uploaded_at         DateTime @default(now()) @db.Timestamp(6)
+  verification_status String   @default("pending") @db.VarChar(20)
+
+  @@index([owner_type, owner_id], map: "idx_documents_owner")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model payments {
+  id              Int       @id @default(autoincrement())
+  policy_id       Int
+  customer_id     Int
+  amount          Decimal   @db.Decimal(12, 2)
+  payment_date    DateTime  @default(now()) @db.Timestamp(6)
+  payment_method  String    @db.VarChar(30)
+  transaction_ref String?   @unique @db.VarChar(100)
+  status          String    @default("success") @db.VarChar(20)
+  customers       customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  policies        policies  @relation(fields: [policy_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([policy_id], map: "idx_payments_policy")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model policies {
+  id                Int        @id @default(autoincrement())
+  policy_number     String     @unique @db.VarChar(50)
+  policy_type       String     @db.VarChar(50)
+  customer_id       Int
+  agent_id          Int?
+  premium_amount    Decimal    @db.Decimal(12, 2)
+  coverage_amount   Decimal    @db.Decimal(14, 2)
+  premium_frequency String     @default("monthly") @db.VarChar(20)
+  start_date        DateTime   @db.Date
+  end_date          DateTime   @db.Date
+  status            String     @default("active") @db.VarChar(20)
+  created_at        DateTime   @default(now()) @db.Timestamp(6)
+  updated_at        DateTime   @default(now()) @db.Timestamp(6)
+  claims            claims[]
+  payments          payments[]
+  agents            agents?    @relation(fields: [agent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customers         customers  @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([agent_id], map: "idx_policies_agent")
+  @@index([customer_id], map: "idx_policies_customer")
+}
+
+model system_settings {
+  id            Int      @id @default(autoincrement())
+  setting_key   String   @unique @db.VarChar(100)
+  setting_value String
+  updated_by    Int?
+  updated_at    DateTime @default(now()) @db.Timestamp(6)
+  users         users?   @relation(fields: [updated_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(150)
+  email           String            @unique @db.VarChar(150)
+  password_hash   String            @db.VarChar(255)
+  phone           String?           @db.VarChar(20)
+  role            String            @default("customer") @db.VarChar(20)
+  is_active       Boolean           @default(true)
+  created_at      DateTime          @default(now()) @db.Timestamp(6)
+  updated_at      DateTime          @default(now()) @db.Timestamp(6)
+  agents          agents?
+  customers       customers?
+  system_settings system_settings[]
+}
