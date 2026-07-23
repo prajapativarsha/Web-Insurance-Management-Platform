@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
-
+const customerRoutes = require('./routes/customer.routes');
 const app = express();
 
 // Global Middleware
@@ -10,6 +10,8 @@ app.use(cors());
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
+// Mount the customer routes
+app.use('/api/v1/customers', customerRoutes);
 
 // Global Error Handler (Optional but recommended)
 app.use((err, req, res, next) => {
@@ -17,3 +19,8 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+
+
+
+
+

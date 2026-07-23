@@ -5,10 +5,14 @@ import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 import ProtectedRoute from './ProtectedRoute';
 
-// Placeholder components for the dashboards (To be built in later modules)
-const AdminDashboard = () => <div className="p-8 mt-16 text-center text-2xl">Admin Dashboard (Under Construction)</div>;
-const AgentDashboard = () => <div className="p-8 mt-16 text-center text-2xl">Agent Dashboard (Under Construction)</div>;
-const CustomerDashboard = () => <div className="p-8 mt-16 text-center text-2xl">Customer Dashboard (Under Construction)</div>;
+import CustomerList from '../pages/Customers/CustomerList';
+import CustomerProfile from '../pages/Customers/CustomerProfile';
+import CustomerForm from '../pages/Customers/CustomerForm';
+
+// Dashboard Pages (Protected)
+import AdminDashboard from '../pages/Dashboards/AdminDashboard';
+import AgentDashboard from '../pages/Dashboards/AgentDashboard';
+import CustomerDashboard from '../pages/Dashboards/CustomerDashboard';
 
 const AppRoutes = () => {
   return (
@@ -18,38 +22,49 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
 
       {/* Protected Admin Routes */}
-      <Route 
-        path="/admin/dashboard" 
+      <Route
+        path="/admin/dashboard"
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminDashboard />
           </ProtectedRoute>
-        } 
+        }
       />
 
       {/* Protected Agent Routes */}
-      <Route 
-        path="/agent/dashboard" 
+      <Route
+        path="/agent/dashboard"
         element={
           <ProtectedRoute allowedRoles={['agent']}>
             <AgentDashboard />
           </ProtectedRoute>
-        } 
+        }
       />
 
       {/* Protected Customer Routes */}
-      <Route 
-        path="/customer/dashboard" 
+      <Route
+        path="/customer/dashboard"
         element={
           <ProtectedRoute allowedRoles={['customer']}>
             <CustomerDashboard />
           </ProtectedRoute>
-        } 
+        }
       />
 
       {/* Catch-all route: redirect unknown URLs to login */}
       <Route path="*" element={<Navigate to="/" replace />} />
+      
+      {/* Customer management routes */}
+      <Route path="/customers" element={<CustomerList />} />
+      <Route path="/customers/create" element={<CustomerForm />} />
+      <Route path="/customers/:id" element={<CustomerProfile />} />
+      <Route path="/customers/edit/:id" element={<CustomerForm />} />
+
+
     </Routes>
+
+
+
   );
 };
 
