@@ -9,9 +9,6 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 
 // Pass the adapter into PrismaClient
 const prisma = new PrismaClient({ adapter });
-
-// const prisma = new PrismaClient();
-
 const register = async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;

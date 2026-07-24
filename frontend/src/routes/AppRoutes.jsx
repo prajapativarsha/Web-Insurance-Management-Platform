@@ -14,6 +14,9 @@ import AdminDashboard from '../pages/Dashboards/AdminDashboard';
 import AgentDashboard from '../pages/Dashboards/AgentDashboard';
 import CustomerDashboard from '../pages/Dashboards/CustomerDashboard';
 
+import PolicyList from '../pages/Policies/PolicyList';
+import PolicyForm from '../pages/Policies/PolicyForm';
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -41,6 +44,9 @@ const AppRoutes = () => {
         }
       />
 
+      {/* <Route path="/policies" element={<PolicyList />} />
+      <Route path="/policies/new" element={<PolicyForm />} /> */}
+
       {/* Protected Customer Routes */}
       <Route
         path="/customer/dashboard"
@@ -53,13 +59,45 @@ const AppRoutes = () => {
 
       {/* Catch-all route: redirect unknown URLs to login */}
       <Route path="*" element={<Navigate to="/" replace />} />
-      
-      {/* Customer management routes */}
-      <Route path="/customers" element={<CustomerList />} />
-      <Route path="/customers/create" element={<CustomerForm />} />
-      <Route path="/customers/:id" element={<CustomerProfile />} />
-      <Route path="/customers/edit/:id" element={<CustomerForm />} />
 
+
+      {/* Customer Management Routes */}
+      <Route path="/customers" element={
+        <ProtectedRoute allowedRoles={['admin','agent']}>
+          <CustomerList />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/customers/create" element={
+        <ProtectedRoute allowedRoles={['agent','admin']}>
+          <CustomerForm />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/customers/:id" element={
+        <ProtectedRoute allowedRoles={['customer','admin','agent']}>
+          <CustomerProfile />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/customers/edit/:id" element={
+        <ProtectedRoute allowedRoles={['customer','admin','agent']}>
+          <CustomerForm />
+        </ProtectedRoute>
+      } />
+
+      {/* Policy Management Routes */}
+      <Route path="/policies" element={
+        <ProtectedRoute allowedRoles={['customer','admin','agent']}>
+          <PolicyList />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/policies/new" element={
+        <ProtectedRoute allowedRoles={['admin','agent']}>
+          <PolicyForm />
+        </ProtectedRoute>
+      } />
 
     </Routes>
 
@@ -69,3 +107,5 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
+
+

@@ -4,4 +4,5 @@
 -- SET is_Active = true
 -- WHERE id = 5;
 
-select * from users
+select * from customers
+select * from policies

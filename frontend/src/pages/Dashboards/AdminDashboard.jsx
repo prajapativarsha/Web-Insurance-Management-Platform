@@ -16,10 +16,10 @@ const AdminDashboard = () => {
           </Card>
         </Link>
         
-        <Link to="/policies/create">
+        <Link to="/policies">
           <Card className="hover:shadow-lg transition-shadow">
-            <h2 className="text-xl font-semibold mb-2">Create Policy</h2>
-            <p className="text-gray-500">Issue new insurance policies to registered users.</p>
+            <h2 className="text-xl font-semibold mb-2">Manage Policies</h2>
+            <p className="text-gray-500">Issue new or manage insurance policies to registered users.</p>
           </Card>
         </Link>
 
