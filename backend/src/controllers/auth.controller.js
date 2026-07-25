@@ -48,6 +48,21 @@ const login = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
+         if (user.role === 'customer') {
+            const customerRecord = await prisma.customers.findFirst({
+                where: { user_id: user.id }
+            });
+            if (customerRecord) {
+                user.customer_id = customerRecord.id; // Attach to user object
+            }
+        } else if (user.role === 'agent') {
+            const agentRecord = await prisma.agents.findFirst({
+                where: { user_id: user.id }
+            });
+            if (agentRecord) {
+                user.agent_id = agentRecord.id; // Attach to user object
+            }
+        }
 
         // Generate JWT
         const accessToken = generateToken(user);

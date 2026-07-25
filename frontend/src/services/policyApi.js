@@ -15,6 +15,12 @@ const policyApi = {
         return response.data;
     },
 
+    // Get all policy of a specific customer
+    getPolicyByCustomerId: async (customerId) => {
+        const response = await api.get(API_URL, { params: { customer_id: customerId } });
+        return response.data;
+    },
+
     // Create a new policy
     createPolicy: async (policyData) => {
         const response = await api.post(API_URL, policyData);

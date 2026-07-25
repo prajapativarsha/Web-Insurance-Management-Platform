@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import policyApi from '../../services/policyApi';
+import { useAuth } from '../../context/AuthContext';
+
 // Import your UI components if you have them (e.g., Button, Card). 
 // Using standard HTML elements here for simplicity.
 
 const PolicyList = () => {
+    const { user} = useAuth();
+    const role = user?.role?.toLowerCase() || 'customer';
     const [policies, setPolicies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -48,9 +52,9 @@ const PolicyList = () => {
         <div className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold">Policy Management</h1>
-                <Link to="/policies/new" className="bg-blue-600 text-white px-4 py-2 rounded shadow">
+               { (role ==='admin'|| role ==='agent' ) && <Link to="/policies/new" className="bg-blue-600 text-white px-4 py-2 rounded shadow">
                     + Create Policy
-                </Link>
+                </Link>}
             </div>
 
             {/* Filters and Search Bar */}
@@ -74,7 +78,7 @@ const PolicyList = () => {
                     className="border border-gray-300 rounded px-4 py-2"
                 >
                     <option value="">All Statuses</option>
-                    <option value="ACTIVE">Active</option>
+                    <option value="active">Active</option>
                     <option value="EXPIRED">Expired</option>
                     <option value="cancelled">Cancelled</option>
                 </select>
@@ -91,7 +95,7 @@ const PolicyList = () => {
                         <thead>
                             <tr className="bg-gray-100 border-b">
                                 <th className="p-4">Policy Number</th>
-                                <th className="p-4">Customer</th>
+                               {(role ==='agent' || role ==='admin') && (<th className="p-4">Customer</th>)} 
                                 <th className="p-4">Type</th>
                                 <th className="p-4">Premium</th>
                                 <th className="p-4">Status</th>
@@ -109,7 +113,7 @@ const PolicyList = () => {
                                     <tr key={policy.id} className="border-b hover:bg-gray-50">
                                         <td className="p-4 font-medium">{policy.policy_number}</td>
                                         {/* Assuming your backend included the customer relation */}
-                                        <td className="p-4">{policy.customers?.name || `ID: ${policy.customer_id}`}</td>
+                                    {(role ==='agent' || role ==='admin') && (<td className="p-4">{policy.customers?.name || `ID: ${policy.customer_id}`}</td>)}
                                         <td className="p-4">{policy.policy_type}</td>
                                         <td className="p-4">${policy.premium_amount}</td>
                                         <td className="p-4">
@@ -123,8 +127,9 @@ const PolicyList = () => {
                                         </td>
                                         <td className="p-4">{new Date(policy.end_date).toLocaleDateString()}</td>
                                         <td className="p-4">
-                                            <button className="text-blue-600 hover:underline mr-3">View</button>
-                                            <button className="text-gray-600 hover:underline">Edit</button>
+                                            <Link to={`/policies/${policy.id}`} className="text-blue-600 hover:underline mr-3">View</Link>
+                                            <Link to={`/policies/edit/${policy.id}`} className="text-blue-600 hover:underline mr-3">Edit</Link>
+                                            <Link to={`/policies/${policy.id}/payments`} className="text-blue-600 hover:underline mr-3">Payments</Link>
                                         </td>
                                     </tr>
                                 ))

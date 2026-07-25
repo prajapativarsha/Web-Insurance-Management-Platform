@@ -18,7 +18,18 @@ const createPolicy = async (req, res) => {
 
 const getPolicies = async (req, res) => {
     try {
-        const result = await policyService.getPolicies(req.query);
+         // 1. Copy the query parameters coming from the frontend (like search or status)
+        const queryParams = { ...req.query };
+
+        // 2. Overwrite the customer_id with the secure one from the auth middleware
+        if (req.user && req.user.role === 'customer') {
+            queryParams.customer_id = req.user.customer_id;
+        } 
+        // 3. Do the same for agents if they should only see their own assigned policies
+        else if (req.user && req.user.role === 'agent') {
+            queryParams.agent_id = req.user.agent_id;
+        }
+        const result = await policyService.getPolicies(queryParams);
         res.status(200).json({ success: true, data: result });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

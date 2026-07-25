@@ -21,8 +21,8 @@ const Navbar = () => {
             <div className="space-x-4">
               {/* Existing Links */}
               <Link to={dashboardPath} className="hover:underline">Dashboard</Link>
-              <Link to="/customers" className="hover:underline">Customers</Link>
-
+              { (role ==='admin'|| role ==='agent' ) && <Link to="/customers" className="hover:underline">Customers</Link>}
+             
               {/* NEW: Policy Module Link */}
               <Link to="/policies" className="hover:underline">Policies</Link>
 
