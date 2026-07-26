@@ -32,3 +32,5 @@ VALUES (
 SELECT id, name, email, role
 FROM users
 WHERE role = 'agent';
+
+select * from payments

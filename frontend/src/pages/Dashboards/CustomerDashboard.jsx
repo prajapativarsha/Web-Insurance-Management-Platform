@@ -43,9 +43,9 @@ const CustomerDashboard = () => {
           </Card>
         </Link>
 
-        <Link to="/customer/claims/submit">
+        <Link to="/claims/my-claims">
           <Card className="hover:shadow-lg transition-shadow">
-            <h2 className="text-xl font-semibold mb-2">Submit a Claim</h2>
+            <h2 className="text-xl font-semibold mb-2">My Claims</h2>
             <p className="text-gray-500">Upload documents and track your claim status.</p>
           </Card>
         </Link>

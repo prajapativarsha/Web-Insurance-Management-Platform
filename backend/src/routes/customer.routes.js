@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const customerController = require('../controllers/customer.controller');
+const upload = require('../middleware/upload.middleware');
 
 // Note: If you have auth middleware (e.g., verifyToken) from Day 1/2, 
 // you should import it here and add it to these routes.

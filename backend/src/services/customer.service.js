@@ -116,6 +116,7 @@ const deactivateCustomer = async (id) => {
     });
 };
 
+
 module.exports = {
     createCustomer,
     getCustomerList,

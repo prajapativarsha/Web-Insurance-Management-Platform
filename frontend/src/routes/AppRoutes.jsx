@@ -23,6 +23,11 @@ import OverdueList from '../pages/Payments/OverdueList';
 import CustomerPaymentHistory from '../pages/Payments/CustomerPaymentHistory';
 import AllPaymentHistory from '../pages/Payments/AllPaymentHistory'
 
+import SubmitClaim from '../pages/Claims/SubmitClaim';
+import ManageClaims from '../pages/Claims/ManageClaims';
+import MyClaimsById from '../pages/Claims/MyClaimsById';
+import MyClaims from '../pages/Claims/MyClaims';
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -60,20 +65,6 @@ const AppRoutes = () => {
         }
       />
 
-      {/*View all payment history of a customer */}
-      <Route
-        path="/payments/:customerId"
-        element={
-          <ProtectedRoute allowedRoles={['customer', 'agent', 'admin']}>
-            <AllPaymentHistory />
-          </ProtectedRoute>
-        }
-      />
-
-
-      {/* Catch-all route: redirect unknown URLs to login */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-
 
       {/* Customer Management Routes */}
       <Route path="/customers" element={
@@ -99,6 +90,52 @@ const AppRoutes = () => {
           <CustomerForm />
         </ProtectedRoute>
       } />
+
+      {/*View all payment history of a customer */}
+      <Route
+        path="/payments/:customerId"
+        element={
+          <ProtectedRoute allowedRoles={['customer', 'agent', 'admin']}>
+            <AllPaymentHistory />
+          </ProtectedRoute>
+        }
+      />
+
+      {/*Claim Management Routes */}
+      <Route path="/claims/my-claims/:id/new-claim" element={
+        <ProtectedRoute allowedRoles={['customer']}>
+          <SubmitClaim />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/agent/claims" element={
+        <ProtectedRoute allowedRoles={['agent']}>
+          <ManageClaims />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/admin/claims" element={
+        <ProtectedRoute allowedRoles={['admin']}>
+          <ManageClaims />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/claims/my-claims/:id" element={
+        <ProtectedRoute allowedRoles={['customer']}>
+          <MyClaimsById />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/claims/my-claims" element={
+        <ProtectedRoute allowedRoles={['customer']}>
+          <MyClaims />
+        </ProtectedRoute>
+      } />
+
+
+
+
+
 
       {/* Policy Management Routes */}
       <Route path="/policies" element={
@@ -132,7 +169,7 @@ const AppRoutes = () => {
           <PayPremium />
         </ProtectedRoute>
       } />
-       <Route path="/policies/:policyId/payments" element={
+      <Route path="/policies/:policyId/payments" element={
         <ProtectedRoute allowedRoles={['customer']}>
           <CustomerPaymentHistory />
         </ProtectedRoute>
@@ -144,6 +181,10 @@ const AppRoutes = () => {
           <OverdueList />
         </ProtectedRoute>
       } />
+
+
+      {/* Catch-all route: redirect unknown URLs to login */}
+      <Route path="*" element={<Navigate to="/" replace />} />
 
     </Routes>
 

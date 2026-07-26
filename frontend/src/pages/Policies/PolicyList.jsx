@@ -130,6 +130,7 @@ const PolicyList = () => {
                                             <Link to={`/policies/${policy.id}`} className="text-blue-600 hover:underline mr-3">View</Link>
                                             <Link to={`/policies/edit/${policy.id}`} className="text-blue-600 hover:underline mr-3">Edit</Link>
                                             <Link to={`/policies/${policy.id}/payments`} className="text-blue-600 hover:underline mr-3">Payments</Link>
+                                            <Link to={`/claims/my-claims/${policy.id}`} className="text-blue-600 hover:underline mr-3">Claims</Link>
                                         </td>
                                     </tr>
                                 ))

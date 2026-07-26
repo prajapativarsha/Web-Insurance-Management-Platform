@@ -62,10 +62,48 @@ const deactivateCustomer = async (req, res) => {
     }
 };
 
-module.exports = {
-    createCustomer,
-    getCustomerList,
-    getCustomer,
-    updateCustomer,
-    deactivateCustomer
+
+const uploadDocument = async (req, res) => {
+    try {
+        const customerId = parseInt(req.params.id);
+        
+        if (!req.file) {
+            return res.status(400).json({ error: 'No document file provided.' });
+        }
+
+        const { document_type } = req.body; 
+
+        // NOTE: You can move this Prisma logic into customer.service.js to match your current pattern
+        const newDocument = await prisma.document.create({
+            data: {
+                owner_type: 'customer',          
+                owner_id: customerId,            
+                document_type: document_type || 'Other',
+                file_url: req.file.path,         
+                verification_status: 'pending'   
+            }
+        });
+
+        res.status(201).json({ success: true, message: 'Identity document uploaded.', data: newDocument });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Failed to upload document.' });
+    }
 };
+
+// You will also eventually need these to fulfill the API requirements:
+const getCustomerDocuments = async (req, res) => { /* logic to fetch documents */ };
+const verifyDocument = async (req, res) => { /* logic for Agent to verify document */ };
+
+module.exports = { 
+    createCustomer, 
+    getCustomerList, 
+    getCustomer, 
+    updateCustomer, 
+    deactivateCustomer,
+    uploadDocument,       
+    getCustomerDocuments, 
+    verifyDocument        
+};
+
+
