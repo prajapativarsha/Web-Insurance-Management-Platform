@@ -3,7 +3,7 @@ const { z } = require("zod");
 // Schema for a customer submitting a new claim (POST /claims)
 const createClaimSchema = z.object({
   body: z.object({
-    policy_id: z
+    policy_id: z.coerce
       .number({ required_error: "Policy ID is required" })
       .int("Policy ID must be an integer")
       .positive("Policy ID must be positive"),
@@ -16,7 +16,7 @@ const createClaimSchema = z.object({
       )
       .max(1000, "Description is too long"),
 
-    claim_amount: z
+    claim_amount: z.coerce
       .number({ required_error: "Claim amount is required" })
       .positive("Claim amount must be greater than zero"),
   }),

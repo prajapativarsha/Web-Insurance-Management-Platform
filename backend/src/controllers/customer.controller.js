@@ -14,6 +14,16 @@ const createCustomer = async (req, res) => {
     }
 };
 
+const uploadKYCDocument = async (req,res) =>{
+    try{
+      const document = await customerService.uploadKYCDocument(req);
+       res.status(201).json({ success: true, data: document });
+    }
+    catch(error){
+       res.status(400).json({ success: false, message: error.errors || error.message });
+    }
+}
+
 const getCustomerList = async (req, res) => {
     try {
         // Extract the search query string if it exists (?search=john)
@@ -63,33 +73,33 @@ const deactivateCustomer = async (req, res) => {
 };
 
 
-const uploadDocument = async (req, res) => {
-    try {
-        const customerId = parseInt(req.params.id);
+// const uploadDocument = async (req, res) => {
+//     try {
+//         const customerId = parseInt(req.params.id);
         
-        if (!req.file) {
-            return res.status(400).json({ error: 'No document file provided.' });
-        }
+//         if (!req.file) {
+//             return res.status(400).json({ error: 'No document file provided.' });
+//         }
 
-        const { document_type } = req.body; 
+//         const { document_type } = req.body; 
 
-        // NOTE: You can move this Prisma logic into customer.service.js to match your current pattern
-        const newDocument = await prisma.document.create({
-            data: {
-                owner_type: 'customer',          
-                owner_id: customerId,            
-                document_type: document_type || 'Other',
-                file_url: req.file.path,         
-                verification_status: 'pending'   
-            }
-        });
+//         // NOTE: You can move this Prisma logic into customer.service.js to match your current pattern
+//         const newDocument = await prisma.document.create({
+//             data: {
+//                 owner_type: 'customer',          
+//                 owner_id: customerId,            
+//                 document_type: document_type || 'Other',
+//                 file_url: req.file.path,         
+//                 verification_status: 'pending'   
+//             }
+//         });
 
-        res.status(201).json({ success: true, message: 'Identity document uploaded.', data: newDocument });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: 'Failed to upload document.' });
-    }
-};
+//         res.status(201).json({ success: true, message: 'Identity document uploaded.', data: newDocument });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ success: false, message: 'Failed to upload document.' });
+//     }
+// };
 
 // You will also eventually need these to fulfill the API requirements:
 const getCustomerDocuments = async (req, res) => { /* logic to fetch documents */ };
@@ -101,7 +111,7 @@ module.exports = {
     getCustomer, 
     updateCustomer, 
     deactivateCustomer,
-    uploadDocument,       
+    uploadKYCDocument,       
     getCustomerDocuments, 
     verifyDocument        
 };

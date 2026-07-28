@@ -27,6 +27,7 @@ import SubmitClaim from '../pages/Claims/SubmitClaim';
 import ManageClaims from '../pages/Claims/ManageClaims';
 import MyClaimsById from '../pages/Claims/MyClaimsById';
 import MyClaims from '../pages/Claims/MyClaims';
+import KYCDocumentForm from '../pages/Customers/KYCDocumentForm';
 
 const AppRoutes = () => {
   return (
@@ -117,6 +118,12 @@ const AppRoutes = () => {
       <Route path="/admin/claims" element={
         <ProtectedRoute allowedRoles={['admin']}>
           <ManageClaims />
+        </ProtectedRoute>
+      } />
+
+       <Route path="/customer/kyc-document-upload" element={
+        <ProtectedRoute allowedRoles={['customer']}>
+          <KYCDocumentForm />
         </ProtectedRoute>
       } />
 

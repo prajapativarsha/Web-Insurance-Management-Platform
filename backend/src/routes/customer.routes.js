@@ -5,11 +5,15 @@ const upload = require('../middleware/upload.middleware');
 
 // Note: If you have auth middleware (e.g., verifyToken) from Day 1/2, 
 // you should import it here and add it to these routes.
-// const { verifyToken, isAdminOrAgent } = require('../middleware/auth.middleware');
+const { verifyToken, isAdminOrAgent } = require('../middleware/auth.middleware');
+
+router.use(verifyToken);
 
 // Create a new customer profile
 // Example: POST /api/v1/customers
 router.post('/', customerController.createCustomer);
+
+router.post('/kyc-document-upload',upload.single('KYCDocument'),customerController.uploadKYCDocument);
 
 // Get list of all customers (with optional ?search= query)
 // Example: GET /api/v1/customers or GET /api/v1/customers?search=john

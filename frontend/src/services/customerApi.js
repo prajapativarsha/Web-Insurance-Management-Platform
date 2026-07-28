@@ -28,6 +28,10 @@ const createCustomer = async (customerData) => {
     const response = await api.post('/customers', customerData);
     return response.data;
 };
+const uploadKYCDocument = async (data) =>{
+    const response = await api.post('/customers/kyc-document-upload',data);
+    return response.data;
+}
 
 // Update an existing customer profile
 const updateCustomer = async (id, customerData) => {
@@ -45,6 +49,7 @@ const customerApi = {
     getCustomers,
     getCustomerById,
     createCustomer,
+    uploadKYCDocument,
     updateCustomer,
     deactivateCustomer,
 };

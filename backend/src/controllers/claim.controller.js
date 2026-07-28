@@ -1,5 +1,5 @@
 const claimService = require('../services/claim.service');
-
+const prisma = require('../config/prisma')
 /**
  * 1. CREATE: Customer submits a new claim
  * POST /api/v1/claims
@@ -10,13 +10,6 @@ const createClaim = async (req, res) => {
     const customerId = req.user.customer_id;
   
     const { policy_id, description, claim_amount } = req.body;
-     // Initialize a variable to hold the file path
-    let documentUrl = null;
-
-	if (req.file) {
-    // Save the relative path (e.g., '/uploads/1690123456-document.pdf')
-    documentUrl = `/uploads/${req.file.filename}`;
-    }
     const newClaim = await claimService.createClaim(
       customerId, 
       policy_id, 
@@ -24,6 +17,23 @@ const createClaim = async (req, res) => {
       claim_amount
     );
 
+     let newDocument = null;
+        if (req.file) {
+            const documentPath = `/uploads/${req.file.filename}`;
+            
+            // 3. Create the Document record linked to the Claim
+            newDocument = await prisma.documents.create({
+              data :{
+                owner_id: newClaim.id, // Link to the claim we just made
+                owner_type : 'claim',
+                document_type: 'claim_evidence',
+                file_url: documentPath,
+              }
+                
+               
+            });
+        }
+    
     res.status(201).json({
       success: true,
       message: "Claim submitted successfully",

@@ -49,6 +49,13 @@ const CustomerDashboard = () => {
             <p className="text-gray-500">Upload documents and track your claim status.</p>
           </Card>
         </Link>
+
+        <Link to="/customer/kyc-document-upload">
+          <Card className="hover:shadow-lg transition-shadow">
+            <h2 className="text-xl font-semibold mb-2">Complete KYC</h2>
+            <p className="text-gray-500">Securely upload your identity documents for verification.</p>
+          </Card>
+        </Link>
       </div>
     </div>
   );

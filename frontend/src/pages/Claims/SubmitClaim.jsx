@@ -8,6 +8,8 @@ const SubmitClaim = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState( {policy_id : policy_id || '', description: '', claim_amount: '' });
   const [message, setMessage] = useState('');
+  // 1. New state for the file
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     setFormData((prev) => ({
@@ -19,14 +21,24 @@ const SubmitClaim = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const data = new FormData();
       // Convert inputs to numbers where required by your Zod schema
-      const payload = {
-        policy_id: parseInt(formData.policy_id,10),
-        description: formData.description,
-        claim_amount: parseFloat(formData.claim_amount)
-      };
+      // const payload = {
+      //   policy_id: parseInt(formData.policy_id,10),
+      //   description: formData.description,
+      //   claim_amount: parseFloat(formData.claim_amount)
+      // };
+
       
-      await claimApi.submitClaim(payload, policy_id);
+      data.append('policy_id', formData.policy_id);
+      data.append('description',formData.description);
+      data.append('claim_amount',formData.claim_amount);
+
+      if (file) {
+        data.append('claimDocument', file);
+      }
+      
+      await claimApi.submitClaim(data, policy_id);
       setMessage("Claim submitted successfully!");
       
       // Redirect back to dashboard after 2 seconds
@@ -76,6 +88,16 @@ const SubmitClaim = () => {
             value={formData.description}
             onChange={(e) => setFormData({...formData, description: e.target.value})}
           />
+        </div>
+
+         <div>
+          <label className="block text-sm font-medium mb-1">Description of Incident</label>
+          <input 
+            type="file" 
+            accept=".jpg,.jpeg,.png,.pdf"
+            onChange={(e) => setFile(e.target.files[0])} 
+            className="border p-2 w-full"
+        />
         </div>
 
         <button type="submit" className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700">

@@ -23,8 +23,8 @@ router.use(verifyToken);
 router.post(
   "/my-claims/:id/new",
   authorizeRole("customer"), // 2. AUTHORIZATION: Only customers
+  upload.single('claimDocument'),
   validate(createClaimSchema), // 3. VALIDATION: Check policy_id & amount
-  upload.array('evidenceDocuments', 5),
   claimController.createClaim,
 );
 

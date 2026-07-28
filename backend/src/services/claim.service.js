@@ -10,9 +10,9 @@ const createClaim = async (customerId, policyId, description, claimAmount) => {
     data: {
       claim_number: claimNumber,
       customer_id: customerId,
-      policy_id: policyId,
+      policy_id: parseInt(policyId),
       description: description,
-      claim_amount: claimAmount,
+      claim_amount: parseFloat(claimAmount),
       // 'status' and 'submitted_date' are omitted because your Prisma schema 
       // automatically defaults them to "submitted" and now()!
     },
