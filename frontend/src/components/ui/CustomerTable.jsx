@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
+
 const CustomerTable = ({ customers, onDelete }) => {
+    const kycConfig = {
+        verified: { label: 'Verified', classes: 'bg-green-100 text-green-700' },
+        pending: { label: 'Pending', classes: 'bg-yellow-100 text-yellow-700' },
+        rejected: { label: 'Rejected', classes: 'bg-red-100 text-red-700' }
+    };
+
     return (
         <div className="overflow-x-auto bg-white rounded-lg shadow">
             <table className="w-full text-left border-collapse">
@@ -26,8 +34,8 @@ const CustomerTable = ({ customers, onDelete }) => {
                                 <td className="p-4">{customer.users?.email}</td>
                                 <td className="p-4">{customer.users?.phone || 'N/A'}</td>
                                 <td className="p-4">
-                                    <span className={`px-2 py-1 rounded text-sm ${customer.kyc_status ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                                        {customer.kyc_status ? 'Verified' : 'Pending'}
+                                    <span className={`px-2 py-1 rounded text-sm ${kycConfig[customer.kyc_status]?.classes || kycConfig.pending.classes}`}>
+                                        {kycConfig[customer.kyc_status]?.label || 'Pending'}
                                     </span>
                                 </td>
                                 <td className="p-4 flex gap-2">

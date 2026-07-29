@@ -26,7 +26,7 @@ const Navbar = () => {
               {/* NEW: Policy Module Link */}
               <Link to="/policies" className="hover:underline">Policies</Link>
 
-              <button onClick={logout} className="bg-red-500 px-3 py-1 rounded">Logout</button>
+              <button onClick={logout} className="bg-red-500 px-3 py-1 rounded text-white">Logout</button>
             </div>}
           
         </div>

@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const path = require('path');
 const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
@@ -6,7 +7,7 @@ const customerRoutes = require('./routes/customer.routes');
 const policyRoutes = require('./routes/policy.routes'); 
 const paymentRoutes = require('./routes/payment.routes');
 const claimRoutes = require('./routes/claim.routes');
-const app = express();
+const reportRoutes = require('./routes/report.routes');
 
 // Global Middleware
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use('/api/v1/customers', customerRoutes);
 app.use('/api/v1', paymentRoutes);
 app.use('/api/v1/policies', policyRoutes);
 app.use('/api/v1/claims', claimRoutes);
+app.use('/api/v1/reports', reportRoutes);
 
 // Expose the uploads directory to the frontend
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

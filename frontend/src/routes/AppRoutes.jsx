@@ -128,7 +128,7 @@ const AppRoutes = () => {
       } />
 
       <Route path="/claims/my-claims/:id" element={
-        <ProtectedRoute allowedRoles={['customer']}>
+        <ProtectedRoute allowedRoles={['customer', 'admin']}>
           <MyClaimsById />
         </ProtectedRoute>
       } />
