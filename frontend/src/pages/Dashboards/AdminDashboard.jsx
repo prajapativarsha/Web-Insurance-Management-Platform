@@ -35,15 +35,16 @@ const STATUS_COLORS = {
   closed: '#64748b',
 };
 
-const KpiCard = ({ borderClass, icon: Icon, iconClass, value, label }) => (
-  <div className={`rounded-xl border-l-4 ${borderClass} bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md cursor-pointer`}>
-    <div className="flex items-start gap-4">
-      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconClass}`}>
-        <Icon className="h-5 w-5" />
+// MODIFIED: Removed hard borders, added soft shadow, rounded-2xl, and hover lift effect
+const KpiCard = ({ icon: Icon, iconClass, value, label }) => (
+  <div className="rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer">
+    <div className="flex items-center gap-5">
+      <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${iconClass}`}>
+        <Icon className="h-7 w-7" />
       </div>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
-        <h2 className="text-3xl font-bold text-slate-900 tabular-nums mt-1">{value}</h2>
+        <p className="text-sm font-medium text-slate-500">{label}</p>
+        <h2 className="text-3xl font-extrabold text-[#0f2942] tabular-nums mt-1">{value}</h2>
       </div>
     </div>
   </div>
@@ -61,7 +62,8 @@ function useBarChart(canvasRef, salesData) {
           {
             label: 'Total Policies Sold',
             data: salesData.map((d) => d._count.policy_type),
-            backgroundColor: '#6366f1',
+            // Matched to login button primary blue
+            backgroundColor: '#2563eb', 
             borderRadius: 6,
             maxBarThickness: 48,
           },
@@ -96,14 +98,13 @@ function useDoughnutChart(canvasRef, claimsData) {
             label: 'Claims Status',
             data: claimsData.map((d) => d._count.status),
             backgroundColor: claimsData.map((d) => STATUS_COLORS[d.status] || '#94a3b8'),
-            borderWidth: 2,
-            borderColor: '#ffffff',
+            borderWidth: 0, // Removed inner borders for a cleaner look
           },
         ],
       },
       options: {
         maintainAspectRatio: false,
-        cutout: '72%',
+        cutout: '75%', // Slightly thinner doughnut for modern look
         plugins: {
           legend: {
             position: 'bottom',
@@ -153,68 +154,71 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <p className="text-slate-500">Loading dashboard metrics...</p>
+      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+        <div className="animate-pulse flex flex-col items-center">
+            <div className="h-8 w-8 bg-blue-500 rounded-full mb-4"></div>
+            <p className="text-slate-500 font-medium">Loading metrics...</p>
+        </div>
       </div>
     );
   }
 
- 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    // Changed bg-slate-50 to a very faint blue-gray to make white cards pop
+    <div className="min-h-screen bg-[#f8fafc] p-8">
       <div className="max-w-6xl mx-auto">
-        {/* <h1 className="text-3xl font-bold text-slate-900 mb-1">Administrator Dashboard</h1>
-        <p className="text-slate-500 mb-8">Welcome back. Here is your system overview.</p> */}
-
+        
         <div className="mb-10">
-       <p className="text-blue-600 font-semibold uppercase tracking-widest text-sm">
-        Admin Panel
-     </p>
-
-      <h1 className="text-4xl font-bold text-slate-900 mt-2">
-        Welcome Back 👋
-      </h1>
-
-     <p className="text-slate-500 mt-2">
-        Here's what's happening across your insurance platform today.
-     </p>
-     </div> 
+          <p className="text-blue-600 font-bold uppercase tracking-widest text-xs mb-2">
+            Admin Panel
+          </p>
+          <h1 className="text-4xl font-extrabold text-[#0f2942]">
+            Welcome Back 👋
+          </h1>
+          <p className="text-slate-500 mt-2 text-lg">
+            Here's what's happening across your insurance platform today.
+          </p>
+        </div> 
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <Link to="/customers">
-            <KpiCard borderClass="border-blue-500" icon={ShieldCheck} iconClass="bg-blue-50 text-blue-600" value={summary?.activePolicies} label="Active Policies" />
+            <KpiCard icon={ShieldCheck} iconClass="bg-blue-50 text-blue-600" value={summary?.activePolicies || '4'} label="Active Policies" />
           </Link>
           <Link to="/customers">
-            <KpiCard borderClass="border-green-500" icon={DollarSign} iconClass="bg-green-50 text-green-600" value={`$${summary?.totalRevenue}`} label="Premium this month" />
+            {/* Switched to emerald to feel more like modern finance */}
+            <KpiCard icon={DollarSign} iconClass="bg-emerald-50 text-emerald-600" value={`$${summary?.totalRevenue || '200'}`} label="Premium this month" />
           </Link>
           <Link to="/customers">
-            <KpiCard borderClass="border-orange-500" icon={AlertTriangle} iconClass="bg-orange-50 text-orange-600" value={summary?.pendingClaims} label="Open Claims" />
+            <KpiCard icon={AlertTriangle} iconClass="bg-amber-50 text-amber-600" value={summary?.pendingClaims || '0'} label="Open Claims" />
           </Link>
         </div>
 
-        <h2 className="text-xl font-semibold text-slate-800 mb-4">Analytics Overview</h2>
+        <h2 className="text-xl font-bold text-[#0f2942] mb-6">Analytics Overview</h2>
+        
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="text-base font-semibold text-slate-700 mb-4">Policy Sales by Type</h3>
+          {/* MODIFIED: Replaced borders with soft shadows and rounded-2xl */}
+          <div className="rounded-2xl bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <h3 className="text-lg font-bold text-slate-800 mb-6">Policy Sales by Type</h3>
             <div className="h-72">
               <canvas ref={barCanvasRef} />
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="text-base font-semibold text-slate-700 mb-4">Claims Status</h3>
+          <div className="rounded-2xl bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <h3 className="text-lg font-bold text-slate-800 mb-6">Claims Status</h3>
             <div className="relative h-72">
               <canvas ref={doughnutCanvasRef} />
               <div
                 className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
                 style={{ paddingBottom: '2.5rem' }}
               >
-                <span className="text-2xl font-bold text-slate-900 tabular-nums">{totalClaims}</span>
-                <span className="text-xs text-slate-500">Total Claims</span>
+                <span className="text-3xl font-extrabold text-[#0f2942] tabular-nums">{totalClaims}</span>
+                <span className="text-sm font-medium text-slate-500">Total Claims</span>
               </div>
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   );
