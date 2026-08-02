@@ -49,7 +49,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* Left side - Branding (Hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-r from-slate-950 via-slate-800 to-blue-900 text-white flex-col justify-center items-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-linear-to-r from-slate-950 via-slate-800 to-blue-900 text-white flex-col justify-center items-center p-12">
         <h1 className="text-3xl font-bold mb-3">InsureFlow :</h1>
         <h3 className="text-xl font-bold mb-2">An Insurance Management Platform</h3>
         <p className="text-lg text-blue-100 text-center max-w-md">
