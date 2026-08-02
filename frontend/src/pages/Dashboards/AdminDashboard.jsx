@@ -13,7 +13,7 @@ import {
   Legend,
   Title,
 } from 'chart.js';
-import { fetchDashboardSummary, fetchPolicySales, fetchClaimsStats } from '../../services/reportApi';
+import { fetchDashboardSummary, fetchPolicySales, fetchClaimsStats } from '../../services/reportApi.js';
 
 Chart.register(
   BarController,

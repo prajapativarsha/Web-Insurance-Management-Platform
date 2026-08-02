@@ -1,5 +1,5 @@
 import React  from 'react';
-import Card from '../../components/ui/Card';
+import Card from '../../components/ui/Card.jsx';
 import { Link } from 'react-router-dom';
 
 const AgentDashboard = () => {
@@ -9,14 +9,14 @@ const AgentDashboard = () => {
       <p className="text-gray-600 mb-8">Manage your customer portfolio and daily tasks.</p>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Link to="/customers/create">
+        <Link to="/customers">
           <Card className="hover:shadow-lg transition-shadow">
-            <h2 className="text-xl font-semibold mb-2">Register Customer</h2>
+            <h2 className="text-xl font-semibold mb-2">Manage Customers</h2>
             <p className="text-gray-500">Onboard a new customer to the platform.</p>
           </Card>
         </Link>
 
-        <Link to="/claims/review">
+        <Link to="/agent/claims">
           <Card className="hover:shadow-lg transition-shadow">
             <h2 className="text-xl font-semibold mb-2">Review Claims</h2>
             <p className="text-gray-500">Verify documents and approve/reject pending claims.</p>

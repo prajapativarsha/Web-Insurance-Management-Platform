@@ -1,4 +1,4 @@
-import api from './api'; // Adjust this import based on where your configured Axios instance is
+import api from './api.js'; // Adjust this import based on where your configured Axios instance is
 
 const API_URL = '/policies';
 

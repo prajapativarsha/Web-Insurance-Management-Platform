@@ -1,5 +1,5 @@
 import React, { useState , useEffect } from 'react';
-import { claimApi } from '../../services/claimApi';
+import { claimApi } from '../../services/claimApi.js';
 import { useNavigate , useParams } from 'react-router-dom';
 
 const SubmitClaim = () => {

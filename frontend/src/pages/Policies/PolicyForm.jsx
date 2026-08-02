@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import policyApi from '../../services/policyApi';
+import policyApi from '../../services/policyApi.js';
 
 const PolicyForm = () => {
     const navigate = useNavigate();

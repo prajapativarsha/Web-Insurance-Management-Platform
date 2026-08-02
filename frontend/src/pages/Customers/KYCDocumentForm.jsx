@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-import customerApi from '../../services/customerApi';
+import customerApi from '../../services/customerApi.js';
 
 const CompleteKYC = () => {
   const [documentType, setDocumentType] = useState('');

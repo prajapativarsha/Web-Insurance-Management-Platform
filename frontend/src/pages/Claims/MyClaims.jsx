@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { claimApi } from '../../services/claimApi';
+import { claimApi } from '../../services/claimApi.js';
 import { jwtDecode } from 'jwt-decode';
 
 

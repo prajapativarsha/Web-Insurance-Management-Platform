@@ -8,7 +8,10 @@ const policyRoutes = require('./routes/policy.routes');
 const paymentRoutes = require('./routes/payment.routes');
 const claimRoutes = require('./routes/claim.routes');
 const reportRoutes = require('./routes/report.routes');
+const employeeRoutes = require('./routes/employee.routes');
 
+
+app.set('trust proxy', 1);
 // Global Middleware
 app.use(express.json());
 app.use(cors());
@@ -20,6 +23,7 @@ app.use('/api/v1', paymentRoutes);
 app.use('/api/v1/policies', policyRoutes);
 app.use('/api/v1/claims', claimRoutes);
 app.use('/api/v1/reports', reportRoutes);
+app.use('/api/v1/employees', employeeRoutes);
 
 // Expose the uploads directory to the frontend
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

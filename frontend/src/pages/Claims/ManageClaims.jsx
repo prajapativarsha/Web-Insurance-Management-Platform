@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { claimApi } from '../../services/claimApi';
+import { claimApi } from '../../services/claimApi.js';
 
 const ManageClaims = () => {
   const [claims, setClaims] = useState([]);
@@ -7,7 +7,7 @@ const ManageClaims = () => {
   const fetchClaims = async () => {
     try {
       // Fetch all claims. You could pass '?status=submitted' here to filter
-      const response = await claimApi.getAllClaims();
+      const response = await claimApi.getAgentClaims();
       setClaims(response.data);
     } catch (error) {
       console.error("Failed to load claims", error);
@@ -63,7 +63,7 @@ const ManageClaims = () => {
                   </span>
                 </td>
                 <td className="p-3 flex gap-2">
-                  {claim.status === 'submitted' && (
+                  {claim.status === 'under_review' && (
                     <button onClick={() => handleAction(claim.id, 'verify')} className="text-sm bg-blue-500 text-white px-3 py-1 rounded">Verify</button>
                   )}
                   {claim.status === 'verified' && (

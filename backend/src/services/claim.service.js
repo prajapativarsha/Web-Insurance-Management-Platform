@@ -22,7 +22,7 @@ const createClaim = async (customerId, policyId, description, claimAmount) => {
 /**
  * 2. READ: Fetch all claims for a specific customer (Customer Dashboard)
  */
-const getClaimsByCustomer = async (customerId) => {
+const getMyClaims = async (customerId) => {
   return await prisma.claims.findMany({
     where: { customer_id: parseInt(customerId) },
     // include: { policies: true }, // Joins the policy details so the customer can see what they claimed against
@@ -52,6 +52,32 @@ const getAllClaims = async (statusFilter) => {
   }
   
   return await prisma.claims.findMany(query);
+};
+
+const getAgentClaims = async (agentId) => {
+  // const query = {
+  //   include: { customers: true, policies: true }, // Pull in rich data for the agent to review
+  //   orderBy: { submitted_date: 'desc' },
+  // };
+
+  
+  // if (statusFilter) {
+  //   query.where = { status: statusFilter };
+  // }
+  
+  return await prisma.claims.findMany({
+    where : { assigned_to : agentId} 
+  });
+};
+
+const assignClaim = async (claimId, agentId) => {
+  return await prisma.claims.update({
+    where: { id: claimId },
+    data: {
+      status: 'under_review',
+      assigned_to: agentId,
+    },
+  });
 };
 
 /**
@@ -99,8 +125,10 @@ const rejectClaim = async (claimId, reason) => {
 
 module.exports = {
   createClaim,
-  getClaimsByCustomer,
+  getMyClaims,
   getMyClaimsById,
+  getAgentClaims,
+  assignClaim,
   getAllClaims,
   verifyClaim,
   approveClaim,

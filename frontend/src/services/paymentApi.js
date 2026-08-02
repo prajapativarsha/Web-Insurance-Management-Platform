@@ -1,5 +1,5 @@
 // frontend/src/services/paymentApi.js
-import api from './api';
+import api from './api.js';
 
 export const paymentApi = {
   // Customer: Record a payment

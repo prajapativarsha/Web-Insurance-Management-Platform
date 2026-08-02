@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import customerApi from '../../services/customerApi';
+import customerApi from '../../services/customerApi.js';
 
 const CustomerForm = () => {
     const navigate = useNavigate();

@@ -52,7 +52,7 @@ const createClaim = async (req, res) => {
 const getMyClaims = async (req, res) => {
   try {
     const customerId = req.user.customer_id;
-    const claims = await claimService.getClaimsByCustomer(customerId);
+    const claims = await claimService.getMyClaims(customerId);
     
     res.status(200).json({ success: true, data: claims });
   } catch (error) {
@@ -90,6 +90,39 @@ const getAllClaims = async (req, res) => {
   }
 };
 
+const getAgentClaims = async (req, res) => {
+  try {
+    const agent_id = req.user.agent_id;
+    const claims = await claimService.getAgentClaims(agent_id);
+    
+    res.status(200).json({ success: true, data: claims });
+  } catch (error) {
+    console.error("Error fetching all claims:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+const assignClaim = async (req, res) => {
+    try {
+        const claimId = parseInt(req.params.id);
+        const agentId = parseInt(req.params.e_id);
+
+        const assignedClaim = await claimService.assignClaim(claimId, agentId);
+
+        res.status(200).json({
+            success: true,
+            message: "Claim successfully assigned",
+            data: assignedClaim,
+        });
+    } catch (error) {
+        console.error("Error verifying claim:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error verifying claim",
+        });
+    }
+};
+
 /**
  * 4. UPDATE: Agent verifies a claim
  * PUT /api/v1/claims/:id/verify
@@ -97,7 +130,7 @@ const getAllClaims = async (req, res) => {
 const verifyClaim = async (req, res) => {
   try {
     const claimId = parseInt(req.params.id);
-    const agentId = req.user.id; // Extract agent ID from token
+    const agentId = req.user.agent_id; // Extract agent ID from token
 
     const verifiedClaim = await claimService.verifyClaim(claimId, agentId);
     
@@ -119,7 +152,7 @@ const verifyClaim = async (req, res) => {
 const approveClaim = async (req, res) => {
   try {
     const claimId = parseInt(req.params.id);
-    const agentId = req.user.id;
+    const agentId = req.user.agent_id;
 
     const approvedClaim = await claimService.approveClaim(claimId, agentId);
     
@@ -192,6 +225,8 @@ module.exports = {
   getMyClaims,
   getMyClaimsById,
   getAllClaims,
+  getAgentClaims,
+  assignClaim,
   verifyClaim,
   approveClaim,
   rejectClaim,

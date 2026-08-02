@@ -37,7 +37,7 @@ router.get(
 //get all claims belonging to a specific policy
 router.get(
   "/my-claims/:id",
-  authorizeRole("customer"),
+  authorizeRole("customer", "agent", "admin"),
   claimController.getMyClaimsById,
 );
 
@@ -48,28 +48,40 @@ router.get(
 // View all claims in the system (Agents/Admins)
 router.get(
   "/",
-  authorizeRole("Administrator", "Insurance Agent"),
+  authorizeRole("admin", "agent"),
   claimController.getAllClaims,
+);
+
+router.get(
+  "/review-claims",
+  authorizeRole( "agent"),
+  claimController.getAgentClaims,
+);
+
+router.put(
+    "/:id/assign/:e_id",
+    authorizeRole("admin"),
+    claimController.assignClaim,
 );
 
 // Verify a claim's documents
 router.put(
   "/:id/verify",
-  authorizeRole("Administrator", "Insurance Agent"),
+  authorizeRole( "agent"),
   claimController.verifyClaim,
 );
 
 // Officially approve a claim
 router.put(
   "/:id/approve",
-  authorizeRole("Administrator", "Insurance Agent"),
+  authorizeRole("admin", "agent"),
   claimController.approveClaim,
 );
 
 // Reject a claim (requires a mandatory reason)
 router.put(
   "/:id/reject",
-  authorizeRole("Administrator", "Insurance Agent"),
+  authorizeRole("admin", "agent"),
   validate(rejectClaimSchema), // VALIDATION: Ensures they provide a reason
   claimController.rejectClaim,
 );

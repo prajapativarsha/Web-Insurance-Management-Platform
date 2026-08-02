@@ -1,33 +1,40 @@
 // src/routes/AppRoutes.jsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from '../pages/auth/Login';
-import Register from '../pages/auth/Register';
-import ProtectedRoute from './ProtectedRoute';
+import Login from '../pages/auth/Login.jsx';
+import Register from '../pages/auth/Register.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 
-import CustomerList from '../pages/Customers/CustomerList';
-import CustomerProfile from '../pages/Customers/CustomerProfile';
-import CustomerForm from '../pages/Customers/CustomerForm';
+import CustomerList from '../pages/Customers/CustomerList.jsx';
+import CustomerProfile from '../pages/Customers/CustomerProfile.jsx';
+import CustomerForm from '../pages/Customers/CustomerForm.jsx';
 
 // Dashboard Pages (Protected)
-import AdminDashboard from '../pages/Dashboards/AdminDashboard';
-import AgentDashboard from '../pages/Dashboards/AgentDashboard';
-import CustomerDashboard from '../pages/Dashboards/CustomerDashboard';
+import AdminDashboard from '../pages/Dashboards/AdminDashboard.jsx';
+import AgentDashboard from '../pages/Dashboards/AgentDashboard.jsx';
+import CustomerDashboard from '../pages/Dashboards/CustomerDashboard.jsx';
 
-import PolicyList from '../pages/Policies/PolicyList';
-import PolicyForm from '../pages/Policies/PolicyForm';
-import PolicyDetails from '../pages/Policies/PolicyDetails'
+import PolicyList from '../pages/Policies/PolicyList.jsx';
+import PolicyForm from '../pages/Policies/PolicyForm.jsx';
+import PolicyDetails from '../pages/Policies/PolicyDetails.jsx'
 
-import PayPremium from '../pages/Payments/PayPremium';
-import OverdueList from '../pages/Payments/OverdueList';
-import CustomerPaymentHistory from '../pages/Payments/CustomerPaymentHistory';
-import AllPaymentHistory from '../pages/Payments/AllPaymentHistory'
+import PayPremium from '../pages/Payments/PayPremium.jsx';
+import OverdueList from '../pages/Payments/OverdueList.jsx';
+import CustomerPaymentHistory from '../pages/Payments/CustomerPaymentHistory.jsx';
+import AllPaymentHistory from '../pages/Payments/AllPaymentHistory.jsx'
 
-import SubmitClaim from '../pages/Claims/SubmitClaim';
-import ManageClaims from '../pages/Claims/ManageClaims';
-import MyClaimsById from '../pages/Claims/MyClaimsById';
-import MyClaims from '../pages/Claims/MyClaims';
-import KYCDocumentForm from '../pages/Customers/KYCDocumentForm';
+import SubmitClaim from '../pages/Claims/SubmitClaim.jsx';
+import ManageClaims from '../pages/Claims/ManageClaims.jsx';
+import MyClaimsById from '../pages/Claims/MyClaimsById.jsx';
+import MyClaims from '../pages/Claims/MyClaims.jsx';
+import KYCDocumentForm from '../pages/Customers/KYCDocumentForm.jsx';
+
+import EmployeeList from '../pages/Employees/EmployeeList.jsx';
+import EmployeeForm from '../pages/Employees/EmployeeForm.jsx';
+import EmployeeProfile from '../pages/Employees/EmployeeProfile.jsx';
+import AssignClaims from '../pages/Claims/AssignClaims.jsx';
+import AssignClaimTo from '../pages/Claims/AssignClaimTo.jsx';
+
 
 const AppRoutes = () => {
   return (
@@ -66,6 +73,26 @@ const AppRoutes = () => {
         }
       />
 
+      {/* Employee Management Routes */}
+       <Route path="/employees/create" element={
+        <ProtectedRoute allowedRoles={['admin']}>
+          <EmployeeForm />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/employees" element={
+        <ProtectedRoute allowedRoles={['admin']}>
+          <EmployeeList />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/employees/:id" element={
+        <ProtectedRoute allowedRoles={[ 'admin', 'agent']}>
+          <EmployeeProfile />
+        </ProtectedRoute>
+      } />
+
+
 
       {/* Customer Management Routes */}
       <Route path="/customers" element={
@@ -92,15 +119,27 @@ const AppRoutes = () => {
         </ProtectedRoute>
       } />
 
-      {/*View all payment history of a customer */}
       <Route
         path="/payments/:customerId"
         element={
           <ProtectedRoute allowedRoles={['customer', 'agent', 'admin']}>
             <AllPaymentHistory />
           </ProtectedRoute>
-        }
-      />
+        } />
+
+      <Route path="/policies/:policyId/pay" element={
+        <ProtectedRoute allowedRoles={['customer']}>
+          <PayPremium />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/policies/:policyId/payments" element={
+        <ProtectedRoute allowedRoles={['customer', 'agent', 'admin']}>
+          <CustomerPaymentHistory />
+        </ProtectedRoute>
+      } />
+
+
 
       {/*Claim Management Routes */}
       <Route path="/claims/my-claims/:id/new-claim" element={
@@ -117,7 +156,13 @@ const AppRoutes = () => {
 
       <Route path="/admin/claims" element={
         <ProtectedRoute allowedRoles={['admin']}>
-          <ManageClaims />
+          <AssignClaims  />
+        </ProtectedRoute>
+      } />
+
+       <Route path="/admin/claim/:id/assign_claim" element={
+        <ProtectedRoute allowedRoles={['admin']}>
+          <AssignClaimTo />
         </ProtectedRoute>
       } />
 
@@ -128,7 +173,7 @@ const AppRoutes = () => {
       } />
 
       <Route path="/claims/my-claims/:id" element={
-        <ProtectedRoute allowedRoles={['customer', 'admin']}>
+        <ProtectedRoute allowedRoles={['customer', 'agent', 'admin']}>
           <MyClaimsById />
         </ProtectedRoute>
       } />
@@ -138,9 +183,6 @@ const AppRoutes = () => {
           <MyClaims />
         </ProtectedRoute>
       } />
-
-
-
 
 
 
@@ -168,19 +210,7 @@ const AppRoutes = () => {
           <PolicyForm />
         </ProtectedRoute>
       } />
-
-
-      {/* Customer Protected Routes */}
-      <Route path="/policies/:policyId/pay" element={
-        <ProtectedRoute allowedRoles={['customer']}>
-          <PayPremium />
-        </ProtectedRoute>
-      } />
-      <Route path="/policies/:policyId/payments" element={
-        <ProtectedRoute allowedRoles={['customer']}>
-          <CustomerPaymentHistory />
-        </ProtectedRoute>
-      } />
+      
 
       {/* Admin/Agent Protected Routes */}
       <Route path="/admin/payments/overdue" element={

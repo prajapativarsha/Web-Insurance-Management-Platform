@@ -38,8 +38,17 @@ const getPolicies = async (query) => {
     if (search) {
         where.OR = [
             { policy_number: { contains: search, mode: 'insensitive' } },
-            { customers: { name: { contains: search, mode: 'insensitive' } } }
         ];
+        
+        // Convert the search string to a number
+        const searchAsNumber = parseInt(search, 10);
+
+        // If the search term is a valid number, add the ID check to the OR array
+        if (!isNaN(searchAsNumber)) {
+            where.OR.push({
+                customers: { id: searchAsNumber }, // Exact match for numbers
+            });
+        }
     }
 
     // Fetch data and the total count for frontend pagination

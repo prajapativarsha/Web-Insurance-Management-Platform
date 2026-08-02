@@ -14,6 +14,7 @@ model agents {
   created_at                        DateTime   @default(now()) @db.Timestamp(6)
   users                             users      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   claims_claims_approved_byToagents claims[]   @relation("claims_approved_byToagents")
+  claims_claims_assigned_toToagents claims[]   @relation("claims_assigned_toToagents")
   claims_claims_verified_byToagents claims[]   @relation("claims_verified_byToagents")
   policies                          policies[]
 }
@@ -33,7 +34,9 @@ model claims {
   approved_by                       Int?
   approved_at                       DateTime? @db.Timestamp(6)
   rejection_reason                  String?
+  assigned_to                       Int?
   agents_claims_approved_byToagents agents?   @relation("claims_approved_byToagents", fields: [approved_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agents_claims_assigned_toToagents agents?   @relation("claims_assigned_toToagents", fields: [assigned_to], references: [id], onDelete: NoAction, onUpdate: NoAction)
   customers                         customers @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   policies                          policies  @relation(fields: [policy_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   agents_claims_verified_byToagents agents?   @relation("claims_verified_byToagents", fields: [verified_by], references: [id], onDelete: NoAction, onUpdate: NoAction)

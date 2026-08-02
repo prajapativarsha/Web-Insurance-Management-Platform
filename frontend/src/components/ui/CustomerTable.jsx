@@ -18,6 +18,7 @@ const CustomerTable = ({ customers, onDelete }) => {
                         <th className="p-4 font-semibold text-gray-600">Name</th>
                         <th className="p-4 font-semibold text-gray-600">Email</th>
                         <th className="p-4 font-semibold text-gray-600">Phone</th>
+                         <th className="p-4 font-semibold text-gray-600">Is Active</th>
                         <th className="p-4 font-semibold text-gray-600">KYC Status</th>
                         <th className="p-4 font-semibold text-gray-600">Actions</th>
                     </tr>
@@ -33,6 +34,11 @@ const CustomerTable = ({ customers, onDelete }) => {
                                 <td className="p-4">{customer.users?.name}</td>
                                 <td className="p-4">{customer.users?.email}</td>
                                 <td className="p-4">{customer.users?.phone || 'N/A'}</td>
+                                 <td className="p-4">
+                                    <span className={`px-2 py-1 rounded text-sm ${customer.users?.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                        {customer.users?.is_active ? 'Active' : 'Inactive'}
+                                    </span>
+                                </td>
                                 <td className="p-4">
                                     <span className={`px-2 py-1 rounded text-sm ${kycConfig[customer.kyc_status]?.classes || kycConfig.pending.classes}`}>
                                         {kycConfig[customer.kyc_status]?.label || 'Pending'}

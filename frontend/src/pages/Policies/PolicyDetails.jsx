@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 
 // 1. IMPORT THE DEFAULT OBJECT
-import policyApi from '../../services/policyApi';
+import policyApi from '../../services/policyApi.js';
 
 
 const PolicyDetails = () => {

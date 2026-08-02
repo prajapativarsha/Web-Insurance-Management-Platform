@@ -1,6 +1,6 @@
 // frontend/src/pages/Payments/OverdueList.jsx
 import React, { useState, useEffect } from 'react';
-import { paymentApi } from '../../services/paymentApi';
+import { paymentApi } from '../../services/paymentApi.js';
 
 const OverdueList = () => {
   const [overduePolicies, setOverduePolicies] = useState([]);

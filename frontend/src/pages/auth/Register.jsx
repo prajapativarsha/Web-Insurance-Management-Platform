@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import authService from '../../services/authService';
-import Input from '../../components/ui/Input';
-import PasswordInput from '../../components/ui/PasswordInput';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
-import Loader from '../../components/ui/Loader';
+import authService from '../../services/authService.js';
+import Input from '../../components/ui/Input.jsx';
+import PasswordInput from '../../components/ui/PasswordInput.jsx';
+import Button from '../../components/ui/Button.jsx';
+import Card from '../../components/ui/Card.jsx';
+import Loader from '../../components/ui/Loader.jsx';
 
 const Register = () => {
   const [formData, setFormData] = useState({

@@ -5,9 +5,14 @@ const createPolicy = async (req, res) => {
     try {
         // Run Zod Validation
         const validatedData = createPolicySchema.parse(req.body);
+        const agent_id = req.user.agent_id;
+        const data = {
+            ...validatedData,
+            agent_id,
+        }
         
         // Execute Service
-        const newPolicy = await policyService.createPolicy(validatedData);
+        const newPolicy = await policyService.createPolicy(data);
         
         // Return standard JSON response
         res.status(201).json({ success: true, data: newPolicy });

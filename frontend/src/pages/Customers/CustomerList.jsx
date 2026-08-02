@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import customerApi from '../../services/customerApi';
-import CustomerTable from '../../components/ui/CustomerTable';
-import CustomerSearch from '../../components/ui/CustomerSearch';
+import customerApi from '../../services/customerApi.js';
+import CustomerTable from '../../components/ui/CustomerTable.jsx';
+import CustomerSearch from '../../components/ui/CustomerSearch.jsx';
 
 const CustomerList = () => {
     const [customers, setCustomers] = useState([]);

@@ -1,4 +1,4 @@
-import api from './api';
+import api from './api.js';
 
 // Interceptor to automatically attach the JWT token to every request
 api.interceptors.request.use((config) => {
@@ -10,6 +10,12 @@ api.interceptors.request.use((config) => {
 }, (error) => {
     return Promise.reject(error);
 });
+
+// Create a new customer profile
+const createCustomer = async (customerData) => {
+    const response = await api.post('/customers', customerData);
+    return response.data;
+};
 
 // Fetch all customers (with optional search query)
 const getCustomers = async (searchQuery = '') => {
@@ -23,11 +29,7 @@ const getCustomerById = async (id) => {
     return response.data;
 };
 
-// Create a new customer profile
-const createCustomer = async (customerData) => {
-    const response = await api.post('/customers', customerData);
-    return response.data;
-};
+
 const uploadKYCDocument = async (data) =>{
     const response = await api.post('/customers/kyc-document-upload',data);
     return response.data;

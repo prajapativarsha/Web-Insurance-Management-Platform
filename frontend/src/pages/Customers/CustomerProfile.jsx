@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import customerApi from '../../services/customerApi';
-import CustomerCard from '../../components/ui/CustomerCard';
+import customerApi from '../../services/customerApi.js';
+import CustomerCard from '../../components/ui/CustomerCard.jsx';
 
 const CustomerProfile = () => {
     const { id } = useParams();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import policyApi from '../../services/policyApi';
-import { useAuth } from '../../context/AuthContext';
+import policyApi from '../../services/policyApi.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 // Import your UI components if you have them (e.g., Button, Card). 
 // Using standard HTML elements here for simplicity.
@@ -62,7 +62,7 @@ const PolicyList = () => {
                 <form onSubmit={handleSearch} className="flex-1 flex gap-2">
                     <input 
                         type="text" 
-                        placeholder="Search by Policy Number or Customer Name..." 
+                        placeholder="Search by Policy Number or Customer ID..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full border border-gray-300 rounded px-4 py-2"
