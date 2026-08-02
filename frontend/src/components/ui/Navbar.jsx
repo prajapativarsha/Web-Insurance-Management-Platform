@@ -31,7 +31,7 @@ const Navbar = () => {
             <Link 
               to={`/${role}/dashboard`} 
               className={`text-sm font-medium transition-colors duration-200 ${
-                isActive('dashboard') ? 'border-b-2 border-blue-500 pb-1 text-white' : 'text-slate-300 hover:text-white'
+                isActive('dashboard') ? 'border-b-2 border-blue-500 pb-1 text-blue-400' : 'text-slate-300 hover:text-white'
               }`}
             >
               Dashboard
@@ -41,7 +41,7 @@ const Navbar = () => {
               <Link 
                 to="/employees" 
                 className={`text-sm font-medium transition-colors duration-200 ${
-                  isActive('/employees') ? 'border-b-2 border-blue-500 pb-1 text-white' : 'text-slate-300 hover:text-white'
+                  isActive('/employees') ? 'border-b-2 border-blue-500 pb-1 text-blue-400' : 'text-slate-300 hover:text-white'
                 }`}
               >
                 Employees
@@ -52,7 +52,7 @@ const Navbar = () => {
               <Link 
                 to="/customers" 
                 className={`text-sm font-medium transition-colors duration-200 ${
-                  isActive('/customers') ? 'border-b-2 border-blue-500 pb-1 text-white' : 'text-slate-300 hover:text-white'
+                  isActive('/customers') ? 'border-b-2 border-blue-500 pb-1 text-blue-400' : 'text-slate-300 hover:text-white'
                 }`}
               >
                 Customers
@@ -62,7 +62,7 @@ const Navbar = () => {
             <Link 
               to="/policies" 
               className={`text-sm font-medium transition-colors duration-200 ${
-                isActive('/policies') ? 'border-b-2 border-blue-500 pb-1 text-white' : 'text-slate-300 hover:text-white'
+                isActive('/policies') ? 'border-b-2 border-blue-500 pb-1 text-blue-400' : 'text-slate-300 hover:text-white'
               }`}
             >
               Policies
@@ -72,7 +72,7 @@ const Navbar = () => {
               <Link 
                 to={`/${role}/claims`} // Fixed missing leading slash here
                 className={`text-sm font-medium transition-colors duration-200 ${
-                  isActive('/claims') ? 'border-b-2 border-blue-500 pb-1 text-white' : 'text-slate-300 hover:text-white'
+                  isActive('/claims') ? 'border-b-2 border-blue-500 pb-1 text-blue-400' : 'text-slate-300 hover:text-white'
                 }`}
               >
                 Claims
