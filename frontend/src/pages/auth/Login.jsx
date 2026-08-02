@@ -7,6 +7,7 @@ import PasswordInput from '../../components/ui/PasswordInput.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Card from '../../components/ui/Card.jsx';
 import Loader from '../../components/ui/Loader.jsx';
+import doodleBg from "../../assets/insurance-doodle.png";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -48,15 +49,16 @@ const Login = () => {
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* Left side - Branding (Hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-center items-center p-12">
-        <h1 className="text-4xl font-bold mb-4">Insurance Management Platform</h1>
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-r from-slate-950 via-slate-800 to-blue-900 text-white flex-col justify-center items-center p-12">
+        <h1 className="text-3xl font-bold mb-3">InsureFlow :</h1>
+        <h3 className="text-xl font-bold mb-2">An Insurance Management Platform</h3>
         <p className="text-lg text-blue-100 text-center max-w-md">
           Securely manage your policies, claims, and premiums all in one centralized platform.
         </p>
       </div>
 
       {/* Right side - Form */}
-      <div className="w-full lg:w-1/2 flex justify-center items-center p-6">
+      <div className="w-full lg:w-1/2 flex justify-center items-center p-6 min-h-screen bg-cover bg-center bg-no-repeat "  style={{ backgroundImage: `url(${doodleBg})` }}>
         <Card>
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>

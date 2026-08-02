@@ -163,8 +163,22 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-slate-900 mb-1">Administrator Dashboard</h1>
-        <p className="text-slate-500 mb-8">Welcome back. Here is your system overview.</p>
+        {/* <h1 className="text-3xl font-bold text-slate-900 mb-1">Administrator Dashboard</h1>
+        <p className="text-slate-500 mb-8">Welcome back. Here is your system overview.</p> */}
+
+        <div className="mb-10">
+       <p className="text-blue-600 font-semibold uppercase tracking-widest text-sm">
+        Admin Panel
+     </p>
+
+      <h1 className="text-4xl font-bold text-slate-900 mt-2">
+        Welcome Back 👋
+      </h1>
+
+     <p className="text-slate-500 mt-2">
+        Here's what's happening across your insurance platform today.
+     </p>
+     </div> 
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <Link to="/customers">
