@@ -62,7 +62,7 @@ const Register = () => {
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* Left side - Branding (Hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-1/2 bg-primary text-white flex-col justify-center items-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-linear-to-r from-slate-950 via-slate-800 to-blue-900 text-white flex-col justify-center items-center p-12">
         <h1 className="text-4xl font-bold mb-4">Join Our Platform</h1>
         <p className="text-lg text-blue-100 text-center max-w-md">
           Create an account today to access seamless insurance workflows and customer management features.
