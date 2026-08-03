@@ -9,6 +9,7 @@ select * from policies
 select * from users
 select * from documents
 select * from agents
+select * from claims
 
 
 -- Add columns to the payments table 
@@ -36,7 +37,7 @@ SELECT id, name, email, role
 FROM users
 WHERE role = 'agent';
 
-select * from agents
+select * from claims
 
 DELETE FROM agents
 WHERE id = 4
@@ -45,3 +46,9 @@ WHERE id = 4
 UPDATE agents
 SET employee_code = 'EMP-000001'
 WHERE id = 4;
+
+ALTER TABLE "claims" ADD COLUMN "assigned_to" INTEGER REFERENCES agents(id);
+
+UPDATE users
+SET role = 'agent'
+WHERE id = 8;
